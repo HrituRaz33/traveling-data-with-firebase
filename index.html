@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Traveling</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./CSS//style.css">
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="box-form">
+        <div class="left">
+            <div class="overlay">
+                <h1>Hello World.</h1>
+                <p>All I need is a 3-month vacation four times a year. That’s really not asking for much.</p>
+            </div>
+        </div>
+
+
+        <div class="right">
+            <h5>Room booking page</h5>
+            <div class="inputs">
+                <input id="RoomNo" type="text" placeholder="Room no" required>
+                <br>
+                <input id="TravellerName" type="text" name="name" placeholder="Traveller Name" required>
+                <br>
+                <input id="Date" type="date" placeholder="Date" required>
+            </div>
+
+            <br><br>
+
+            <br>
+            <button id="submitInfo" class="Submit">Submit</button>
+        </div>
+
+    </div>
+    <!-- firebase connection -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDEcDFEXn3vg1BT08veVqkyEdIASrMNU14",
+            authDomain: "traveling-e3cc0.firebaseapp.com",
+            projectId: "traveling-e3cc0",
+            storageBucket: "traveling-e3cc0.appspot.com",
+            messagingSenderId: "547217062699",
+            appId: "1:547217062699:web:99f49176a4ba4e8b03236e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {
+            getFirestore, doc, addDoc, collection
+        } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-firestore.js"
+
+        const db = getFirestore();
+
+
+
+        // referance
+
+        let RoomNo = document.getElementById("RoomNo");
+        let TName = document.getElementById("TravellerName");
+        let TDate = document.getElementById("Date");
+
+        // Submit Button 
+
+        let submitButton = document.getElementById("submitInfo");
+
+        // Adding documents in firebase
+
+        async function AddDocument_AutoId() {
+            var ref = collection(db, "TheTravelerList");
+
+            const docRef = await addDoc(
+                ref, {
+                RoomNumber: RoomNo.value,
+                TravellerNm: TName.value,
+                BookingDate: TDate.value
+            }
+            )
+                .then(() => {
+                    alert("Data Added Successfully");
+                })
+                .catch((error) => {
+                    alert("Unsuccessful operation" + error);
+                })
+        }
+
+        // Assign Events To button
+
+        submitButton.addEventListener("click", AddDocument_AutoId)
+
+    </script>
+</body>
+
+</html>
